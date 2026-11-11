@@ -19,13 +19,6 @@ cleanup:
 test:
 	go test -v ./...
 
-# TODO: set test from golang client
-test-e2e:
-	echo e2e
-
-run:
-	go run main.go
-
 lint:
 	golangci-lint run ./...
 
@@ -42,3 +35,10 @@ docker-build:
 docker-push:
 	docker push ${REPO}:${TAG}
 
+.PHONY: cleanup
+cleanup:
+	docker rm $$(docker stop $$(docker ps -a -q --filter ancestor=${REPO}:${TAG} --format="{{.ID}}"))
+
+.PHONY: run
+run:
+	docker run -p 127.0.0.1:8080:8080/tcp -t --rm ${REPO}:${TAG}
