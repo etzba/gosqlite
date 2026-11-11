@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  gosqlite:
+    image: etzba/gosqlite:latest
+    environment:
+      - RELEASE_STAGE=testing
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
