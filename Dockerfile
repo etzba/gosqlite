@@ -12,13 +12,15 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -ldflags='-w -s -extldflags "-static"' \
     -a -installsuffix cgo \
     -o gosqlite main.go
-#RUN apt update && apt install sqlite3
+RUN apt update && apt install sqlite3
 
-#FROM gcr.io/distroless/static-debian13
-FROM alpine:latest
-RUN apk update && apk add sqlite
+FROM gcr.io/distroless/static-debian13
+#FROM alpine:latest
+#RUN apk update && apk add sqlite
 # Copy the app from builder
 COPY --from=builder /build/gosqlite /gosqlite
-#COPY --from=builder /usr/bin/sqlite3 /bin/sqlite
+COPY --from=builder /usr/bin/sqlite3 /sqlite
+# TODO: Create a db file in build and set ownership + mode first, then copy from builder
+#USER 65532:65532
 WORKDIR /
 CMD ["./gosqlite"]
