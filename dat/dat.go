@@ -3,7 +3,6 @@ package dat
 import (
 	"database/sql"
 	"fmt"
-	"sync"
 
 	"github.com/etzba/gosqlite/pkg/logger"
 	_ "modernc.org/sqlite"
@@ -23,22 +22,19 @@ CREATE TABLE IF NOT EXISTS profiles (
 	posts   TEXT NOT NULL DEFAULT '' CHECK (length(posts) <= 50)
 );`
 
-type ctxKey struct{}
-
 var (
-	db       *sql.DB
-	sessions = map[string]int64{} // session token -> user id
-	mu       sync.RWMutex
+	db *sql.DB
 )
 
 func InitDB(logger logger.Logger) error {
-	logger.Info(fmt.Sprintf("connecting to database %s", dbName))
+	logger.Info(fmt.Sprintf("Connecting to database %s", dbName))
 	db, err := sql.Open("sqlite", dbName)
 	if err != nil {
 		logger.Error("failed to open db", err)
 		return err
 	}
 
+	logger.Info(fmt.Sprintf("Creating schema in database %s", dbName))
 	if _, err = db.Exec(schema); err != nil {
 		logger.Error("failed to execute schema", err)
 		return err
