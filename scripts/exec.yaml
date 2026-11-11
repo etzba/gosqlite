@@ -1,0 +1,11 @@
+{{ $baseUrl := printf "%s" "http://localhost:8080" }}
+{{ $sumSlice := makeIntSliceBySum 10 }}
+api:
+{{ range $sumSlice }}
+- url: {{ $baseUrl }}/signup
+  method: POST
+- url: {{ $baseUrl }}/login
+  method: POST
+- url: {{ $baseUrl }}/profile/{{ . }}
+  method: POST
+{{ end }}
