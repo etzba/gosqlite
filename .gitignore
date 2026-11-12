@@ -36,3 +36,4 @@ data/
 data/*
 *.db
 */*.db
+.gosqlite.db
