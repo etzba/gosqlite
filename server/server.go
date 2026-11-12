@@ -9,19 +9,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Server
+// Server serve http with gorilla mux router and http service to end users
 type Server struct {
+	// Logger logs events
 	Logger     *logger.Log
 	HTTPServer *http.Server
 	Mux        *http.ServeMux
-	Respoder   wire.Responder
-	ctx        *dat.Context
-	sessions   map[string]int64
+	// Responder is taking care of responding to end user with status codes and payload
+	Respoder wire.Responder
+	// ctx is the database context that creates changes in the database
+	ctx *dat.Context
+	// session is the session store to authenticate users
+	sessions map[string]int64
 }
 
-// New
+// New returns a new instance of Server
 func New(logger *logger.Log, address string) (*Server, error) {
-	responder := wire.Respond{
+	responder := wire.HttpResponder{
 		Logger: logger,
 	}
 	server := &Server{
@@ -46,9 +50,9 @@ func New(logger *logger.Log, address string) (*Server, error) {
 	return server, nil
 }
 
-// Run
+// Run the server
 func (s *Server) Run() error {
-	if err := dat.InitDB(s.Logger); err != nil {
+	if err := s.ctx.InitDB(s.Logger); err != nil {
 		s.Logger.Error("Failed to initilize database", err)
 	}
 
@@ -59,7 +63,7 @@ func (s *Server) Run() error {
 	return nil
 }
 
-// getRouter
+// getRouter creates an instance of mux router with endpoints
 func (s *Server) getRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.NotFoundHandler = notFound
@@ -67,7 +71,7 @@ func (s *Server) getRouter() *mux.Router {
 
 	router.HandleFunc("/signup", s.log(s.signup())).Methods("POST")
 	router.HandleFunc("/login", s.log(s.login())).Methods("POST")
-	router.HandleFunc("/profile/{id}", s.log(s.auth(s.profile()))).Methods("GET", "POST", "PUT")
+	router.HandleFunc("/profile/{id}", s.log(s.auth(s.profile()))).Methods("GET", "PUT")
 	return router
 }
 

@@ -10,14 +10,17 @@ import (
 	_ "modernc.org/sqlite"
 )
 
+// creds are credentials of a user
 type creds struct{ Username, Password string }
 
+// user of the app
 type user struct {
 	id       int64
 	Username string
 	Created  time.Time
 }
 
+// signup will create a user in the database and allow login afterwards
 func (s *Server) signup() func(w http.ResponseWriter, r *http.Request) { //nolint:unused
 	return func(w http.ResponseWriter, r *http.Request) {
 		var c creds

@@ -9,6 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// login endpoint allow end user to authenticate and get a session cookie in return
 func (s *Server) login() func(w http.ResponseWriter, r *http.Request) { //nolint:unused
 	return func(w http.ResponseWriter, r *http.Request) {
 		var c creds
@@ -30,6 +31,7 @@ func (s *Server) login() func(w http.ResponseWriter, r *http.Request) { //nolint
 	}
 }
 
+// newToken return a hexadecimal encoded string as a token (session)
 func newToken() string {
 	b := make([]byte, 32)
 	rand.Read(b)

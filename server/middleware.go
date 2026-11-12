@@ -10,6 +10,7 @@ var mu sync.RWMutex
 
 type ctxKey struct{}
 
+// auth is a middleware that check user session token with the values in the session store
 func (s *Server) auth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		c, err := r.Cookie("session")
@@ -29,6 +30,7 @@ func (s *Server) auth(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// log is a middleware that logs all requests to the server
 func (s *Server) log(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		s.Logger.Info("Request to " + r.RequestURI + " with method: " + r.Method + " accepted. User agent " + r.UserAgent() + " from address " + r.RemoteAddr)

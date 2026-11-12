@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// profile endpoint accepts GET or PUT to get or update user profile
 func (s *Server) profile() func(w http.ResponseWriter, r *http.Request) { //nolint:unused
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
@@ -28,7 +29,7 @@ func (s *Server) profile() func(w http.ResponseWriter, r *http.Request) { //noli
 			return
 		}
 
-		if r.Method == "UPDATE" {
+		if r.Method == "PUT" {
 			uid := r.Context().Value(ctxKey{}).(int64)
 			var in struct{ Posts string }
 			if json.NewDecoder(r.Body).Decode(&in) != nil || len(in.Posts) > 50 {
