@@ -1,5 +1,5 @@
 NAME ?= gosqlite
-TAG ?= v0.1.0-rc1
+TAG ?= latest
 REPO ?= etzba/${NAME}
 
 all: test up exec down
