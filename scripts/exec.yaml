@@ -1,11 +1,8 @@
 {{ $baseUrl := printf "%s" "http://localhost:8080" }}
-{{ $sumSlice := makeIntSliceBySum 10 }}
+{{ $sumSlice := makeIntSliceBySum 100000 }}
 api:
 {{ range $sumSlice }}
-- url: {{ $baseUrl }}/signup
+- url: {{ $baseUrl }}/percentiles
   method: POST
-- url: {{ $baseUrl }}/login
-  method: POST
-- url: {{ $baseUrl }}/profile/{{ . }}
-  method: POST
+  payload: '{{ . }}'
 {{ end }}

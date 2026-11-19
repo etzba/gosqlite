@@ -1,6 +1,6 @@
 NAME ?= gosqlite
-TAG ?= latest
-REPO ?= ghcr.io/etzba/${NAME}
+TAG ?= v0.1.0-rc1
+REPO ?= etzba/${NAME}
 
 all: test up exec down
 
@@ -24,7 +24,7 @@ lint:
 
 # test with etzba 
 exec:
-	etz api --auth=etzba/secret.yaml --exec=etzba/executions.yaml -d=3s -w=6 -r=24 --output=etzba/results/$$(date +%Y%m%d_%H%M%S)_result.json
+	etz api --exec=scripts/exec.yaml -d=10s -w=2 -r=10 --output=results/$$(date +%Y%m%d_%H%M%S)_result.json
 
 # build \ push to dockerhub
 .PHONY: docker-build

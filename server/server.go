@@ -71,6 +71,7 @@ func (s *Server) getRouter() *mux.Router {
 
 	router.HandleFunc("/signup", s.log(s.signup())).Methods("POST")
 	router.HandleFunc("/login", s.log(s.login())).Methods("POST")
+	router.HandleFunc("/percentiles", s.log(s.calculatePercentileInteger())).Methods("POST")
 	router.HandleFunc("/profile/{id}", s.log(s.auth(s.profile()))).Methods("GET", "PUT")
 	router.HandleFunc("/headers", s.log(s.auth(s.getHeaders()))).Methods("GET")
 	router.HandleFunc("/headers/alpha", s.log(s.auth(s.sortHeadersAlphaBetically()))).Methods("GET")
