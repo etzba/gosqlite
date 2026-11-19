@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"net/http"
+	"strings"
 	"sync"
 )
 
@@ -17,6 +18,12 @@ func (s *Server) auth(next http.HandlerFunc) http.HandlerFunc {
 		if err != nil {
 			s.Respoder.SendUnauthorized(w)
 			return
+		}
+
+		for k, v := range r.Header {
+			if k == "Authorization" {
+				c.Value = strings.TrimPrefix(v[0], "Bearer ")
+			}
 		}
 
 		mu.RLock()
