@@ -1,0 +1,91 @@
+{
+    "title": "api",
+    "startTime": "2026-11-19T15:08:47.834561364+01:00",
+    "tags": [
+        "eztba"
+    ],
+    "executionType": "api",
+    "jobDuration": "10s",
+    "workersCount": 2,
+    "general": {
+        "totalExecutions": 50,
+        "requestRate": 5,
+        "taskDurations": {
+            "title": "task_durations",
+            "minimumTime": "633.178µs",
+            "averageTime": "1.548996ms",
+            "maximumTime": "2.86305ms"
+        },
+        "httpTraceDurations": {
+            "dns_lookup": {
+                "title": "dns_lookup",
+                "minimumTime": "27.214µs",
+                "averageTime": "77.266µs",
+                "maximumTime": "153.712µs"
+            },
+            "http_request": {
+                "title": "task_durations",
+                "minimumTime": "633.178µs",
+                "averageTime": "1.548996ms",
+                "maximumTime": "2.86305ms"
+            },
+            "tcp_established": {
+                "title": "tcp_established",
+                "minimumTime": "145.116µs",
+                "averageTime": "315.403µs",
+                "maximumTime": "743.328µs"
+            },
+            "tls_handshake": {
+                "title": "tls_handshake",
+                "minimumTime": "0s",
+                "averageTime": "0s",
+                "maximumTime": "0s"
+            }
+        },
+        "checksResults": {
+            "statusCodeChecks": null,
+            "durationChecks": null,
+            "tasksQuantityChecks": null
+        }
+    },
+    "assignments": [
+        {
+            "title": "POST to http://localhost:8080/percentiles #",
+            "tags": null,
+            "totalExecutions": 50,
+            "taskDurations": {
+                "title": "POST to http://localhost:8080/percentiles #",
+                "minimumTime": "633.178µs",
+                "averageTime": "1.548996ms",
+                "maximumTime": "2.86305ms"
+            },
+            "apiResponses": {
+                "200": {
+                    "status": "200 OK",
+                    "code": 200,
+                    "requestURI": "",
+                    "count": 50
+                }
+            },
+            "httpTraceDurations": {
+                "content_delivered": {
+                    "title": "content_delivered",
+                    "minimumTime": "286.612µs",
+                    "averageTime": "781.609µs",
+                    "maximumTime": "1.696503ms"
+                },
+                "server_processing": {
+                    "title": "server_processing",
+                    "minimumTime": "262.517µs",
+                    "averageTime": "714.903µs",
+                    "maximumTime": "1.61225ms"
+                }
+            },
+            "checkResults": {
+                "statusCodeChecks": null,
+                "durationChecks": null,
+                "tasksQuantityChecks": null
+            }
+        }
+    ]
+}
