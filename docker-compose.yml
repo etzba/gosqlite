@@ -5,4 +5,5 @@ services:
     image: etzba/gosqlite:latest
     ports:
       - "8080:8080"
-
+    environment:
+      - RELEASE_STAGE=testing

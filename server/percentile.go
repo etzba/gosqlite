@@ -40,7 +40,7 @@ func (s *Server) calculatePercentileInteger() func(w http.ResponseWriter, r *htt
 		percentiles["p90"] = int(hist.valueAtPercentile(90))
 		percentiles["p95"] = int(hist.valueAtPercentile(95))
 		percentiles["p99"] = int(hist.valueAtPercentile(99))
-		s.Logger.Info(fmt.Sprintf("p50 = %d\tp75 = %d\tp90 = %d\tp95 = %d\tp99 = %d", int(hist.valueAtPercentile(50)), int(hist.valueAtPercentile(75)), int(hist.valueAtPercentile(90)), int(hist.valueAtPercentile(95)), int(hist.valueAtPercentile(99))))
+		s.Logger.Info(fmt.Sprintf("percentiles calculation: \tp50 = %d\tp75 = %d\tp90 = %d\tp95 = %d\tp99 = %d", int(hist.valueAtPercentile(50)), int(hist.valueAtPercentile(75)), int(hist.valueAtPercentile(90)), int(hist.valueAtPercentile(95)), int(hist.valueAtPercentile(99))))
 		s.Respoder.SendOK(w, percentiles)
 		return
 	}
