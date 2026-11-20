@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"sort"
 )
@@ -12,6 +13,7 @@ func (s *Server) getHeaders() func(w http.ResponseWriter, r *http.Request) { //n
 		for name, values := range r.Header {
 			headers[name] = values
 		}
+		s.Logger.Info(fmt.Sprintf("List of request headers: %v", headers))
 		s.Respoder.SendOK(w, headers)
 		return
 	}

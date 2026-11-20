@@ -4,10 +4,14 @@ import (
 	"net/http"
 
 	"github.com/etzba/gosqlite/dat"
+	"github.com/etzba/gosqlite/pkg/env"
 	"github.com/etzba/gosqlite/pkg/logger"
 	"github.com/etzba/gosqlite/wire"
 	"github.com/gorilla/mux"
 )
+
+// staticSession is Authorization Bearer token that is set in the server to allow authentication with a token for tests
+const staticSession = "c4906878493faa9029a77abbb887578dd79963ef5048afb125152035ec4b233e"
 
 // Server serve http with gorilla mux router and http service to end users
 type Server struct {
@@ -32,6 +36,10 @@ func New(logger *logger.Log, address string) (*Server, error) {
 		Logger:   logger,
 		Respoder: responder,
 		sessions: make(map[string]int64),
+	}
+
+	if env.ReleaseStage == "testing" {
+		server.sessions[staticSession] = 9999999999999
 	}
 
 	ctx, err := dat.NewContext(logger)

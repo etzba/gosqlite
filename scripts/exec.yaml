@@ -1,8 +1,15 @@
 {{ $baseUrl := printf "%s" "http://localhost:8080" }}
 {{ $sumSlice := makeIntSliceBySum 100000 }}
+{{ $staticSession := "c4906878493faa9029a77abbb887578dd79963ef5048afb125152035ec4b233e" }}
 api:
 {{ range $sumSlice }}
 - url: {{ $baseUrl }}/percentiles
   method: POST
   payload: '{{ . }}'
+- url: {{ $baseUrl }}/headers
+  method: GET
+  headers:
+    Content-Type: application/etzba
+    Authorization: "Bearer {{ $staticSession }}"
+    Etzba-String: {{ getRandStringInLength 15 }}
 {{ end }}

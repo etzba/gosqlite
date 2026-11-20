@@ -14,20 +14,23 @@ type ctxKey struct{}
 // auth is a middleware that check user session token with the values in the session store
 func (s *Server) auth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		c, err := r.Cookie("session")
-		if err != nil {
-			s.Respoder.SendUnauthorized(w)
-			return
+		session := ""
+		if r.Header.Get("Authorization") != "" {
+			session = strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
 		}
 
-		for k, v := range r.Header {
-			if k == "Authorization" {
-				c.Value = strings.TrimPrefix(v[0], "Bearer ")
+		c, err := r.Cookie("session")
+		if err != nil {
+			if err != http.ErrNoCookie {
+				s.Respoder.SendUnauthorized(w)
+				return
 			}
+		} else {
+			session = c.Value
 		}
 
 		mu.RLock()
-		uid, ok := s.sessions[c.Value]
+		uid, ok := s.sessions[session]
 		mu.RUnlock()
 		if !ok {
 			s.Respoder.SendUnauthorized(w)

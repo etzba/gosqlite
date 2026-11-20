@@ -24,7 +24,7 @@ lint:
 
 # test with etzba 
 exec:
-	etz api --exec=scripts/exec.yaml -d=10s -w=2 -r=10 --output=results/$$(date +%Y%m%d_%H%M%S)_result.json
+	etz api --exec=scripts/exec.yaml -d=3s -w=2 -r=10 --output=results/$$(date +%Y%m%d_%H%M%S)_result.json
 
 # build \ push to dockerhub
 .PHONY: docker-build
@@ -41,4 +41,4 @@ cleanup:
 
 .PHONY: run
 run:
-	docker run -p 127.0.0.1:8080:8080/tcp -t --rm ${REPO}:${TAG}
+	docker run -e RELEASE_STAGE=testing -p 127.0.0.1:8080:8080/tcp -t --rm ${REPO}:${TAG}
